@@ -16,14 +16,17 @@ public class MessageSender {
 	@Autowired
 	private RabbitTemplate rabbitTemplate;
 
-	@Value("${app-config.rabbit.queue.example}")
-	private String exampleQueue;
+	@Value("${app-config.rabbit.exchange.example}")
+	private String exampleTopicExchange;
+
+	@Value("${app-config.rabbit.routinKey.example}")
+	private String exampleKey;
 
 	@Transactional
 	public void sendMessages(MessageDTO message) {
 		try {
 			log.info("Enviando mensagem: {}", new ObjectMapper().writeValueAsString(message));
-			rabbitTemplate.convertAndSend(exampleQueue, message);
+			rabbitTemplate.convertAndSend(exampleTopicExchange, exampleKey, message);
 			log.info("Mensagem enviada com sucesso!");
 		} catch (Exception e) {
 			log.info("Erro ao enviar mensagem " + e.getMessage());
