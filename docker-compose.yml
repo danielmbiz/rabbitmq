@@ -1,0 +1,20 @@
+version: "3"
+services: 
+
+  rabbit:
+    image: rabbitmq:3-management
+    container_name: sales_rabbit
+    hostname: rabbit
+    networks:
+      - sales-network
+    ports:
+      - 5672:5672
+      - 25676:25676
+      - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+
+networks:
+  sales-network:
+    driver: bridge
